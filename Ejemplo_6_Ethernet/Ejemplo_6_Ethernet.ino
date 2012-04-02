@@ -4,9 +4,10 @@
 //const uint8_t chipSelect_SS_PIN = 4;   
 
 byte mac[]     = {0x90, 0xA2, 0xDA, 0x0D, 0x01, 0xC9}; 
-byte ip[]      = {10,0,0,2};   // Direccion IP de Arduino
+byte ip[]      = {192,168,1,169};   // Direccion IP de Arduino
 
 EthernetServer server = EthernetServer(23);
+String comando = "";
 
 void setup() {
   Serial.begin(9600); 
@@ -24,9 +25,9 @@ void loop() {
   if (client == true) {
     // read bytes from the incoming client and write them back
     // to any clients connected to the server:
-    char lee = client.read();
-    if (lee == 'q') client.stop(); //si mando una q salgo del telnet
-    server.write(lee);
+    comando += client.read();
+    if (comando == "quit") client.stop(); //si mando una q salgo del telnet
+    server.println(comando);
 }
 
   
